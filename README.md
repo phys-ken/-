@@ -7,8 +7,8 @@ PC用のページは、Chrome以外では動作確認ができていません。
 [スマートフォン用サイト](https://phys-ken.github.io/Optics/tutorial2_1slit-phone.html)
 
 #### 2光源の光線モデル
-[PC用サイト](https://phys-ken.github.io/Optics/tutorial2_2light.html) /
-[スマートフォン用サイト](https://phys-ken.github.io/Optics/tutorial2_2light-phone.html)
+[PC用サイト](https://phys-ken.github.io/Optics/tutorial2_2lights.html) /
+[スマートフォン用サイト](https://phys-ken.github.io/Optics/tutorial2_2lights-phone.html)
 
 #### 鏡
 
