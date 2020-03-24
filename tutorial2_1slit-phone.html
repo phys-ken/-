@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光線の考え方　スリット１つ</title>
+</head>
+
+<body onLoad="loopd()">
+    <h2>光線の考え方　スリット１つ</h2>
+
+    光線の本数
+    <input type="range" value="20" min="10" max="300" step="1"
+        oninput="document.getElementById('output1').value=this.value * 2">　
+    <output id="output1">40</output>
+
+    <br><input type="checkbox" name="kosen" id="kosen" value="kosen">全光線を描画する<br><br>
+    <canvas id="cv" style="background-color:rgb(163, 166, 167);">
+        図形を表示するには、canvasタグをサポートしたブラウザが必要です。
+    </canvas>
+
+    <script>
+        //領域
+        var cvs = document.getElementById("cv");
+        var ctx = cvs.getContext("2d");
+        cvs.width = 1000;
+        cvs.height = 600;
+        w = cvs.width;
+        h = cvs.height
+        //光源
+        var X = (1 / 6) * w; //初期座標 X
+        var Y = (1 / 2) * h; //初期座標ｙ
+        var L = Math.sqrt(h * h + w * w); //対角線の長さ
+        var honsu = 70; //光線の本数
+        //スリット
+        slithole = 60; //スリットの穴の高さ
+        slitw = w / 50; //幅
+        slitx = w * 3 / 5; //スリットの位置
+        var state; //全光線のstate
+
+        function loopd() {
+            setInterval(draw, 10);
+        }
+
+
+
+        function draw() {
+            var ho = document.getElementById('output1');
+            var honsu = ho.value;
+
+            var flag2 = document.getElementById("kosen").checked;
+            if (flag2 == false) {
+                state = 1;;
+            } else {
+                state = 0;
+            }
+
+
+            //クリック時のイベントを追加
+            cvs.addEventListener('click', function (e) {
+                if (state == 0) {
+                    state = 1;;
+                } else {
+                    state = 0;
+                }
+            });
+
+
+
+            cvs.addEventListener("mousemove", (e) => {
+                var rect = e.target.getBoundingClientRect()
+                if (e.clientX - rect.left <= slitx) { //光源がスリットより右にいかないように制御
+                    X = e.clientX - rect.left
+                    Y = e.clientY - rect.top
+                }
+                console.log(`${x}:${y}`)
+            });
+
+            ctx.clearRect(0, 0, w, h);
+            ///////////////////////////////////////////////////////////////////////放射状に線を引く/////////////////////////////////////////////////////////////////
+            //まずは、縦線だけ引く
+            if (state == 0) {//stateが0だったら全体の光線、そうじゃなかったら代表線のみ
+                var L = Math.sqrt(h * h + w * w); //全体の光線を表示する場合     
+            } else {
+                var L = 0; //代表線のみを表示する場合
+            }
+            X2 = X + L * Math.sin(Math.PI * 0);
+            Y2 = Y - L * Math.cos(Math.PI * 0);
+            ctx.beginPath();     // 1.Pathで描画を開始する
+            ctx.moveTo(X, Y); // 2.描画する位置を指定する
+            ctx.lineTo(X2, Y2);
+            ctx.strokeStyle = "yellow";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            //放射状に引く
+            for (var i = 1; i < 2 * (honsu); i++) {
+                if (state == 0) {//stateが0だったら全体の光線、そうじゃなかったら代表線のみ
+                    var L = Math.sqrt(h * h + w * w); //全体の光線を表示する場合     
+                } else {
+                    var L = 0; //代表線のみを表示する場合
+                }
+                if (i < (honsu)) {
+                    takasa = (slitx - X) * Math.tan((Math.PI * i / honsu) + Math.PI / 2);
+                    yoko = slitx - X;
+
+                    if (state == 0) {//stateが0だったら全体の光線、そうじゃなかったら代表線のみ
+                        L = Math.sqrt(takasa * takasa + yoko * yoko);//全体の光線を表示する場合     
+                    } else {
+                        var L = 0; //代表線のみを表示する場合
+                    }
+
+                    if (Y + takasa < h / 2 + slithole / 2 && Y + takasa > h / 2 - slithole / 2) {
+                        var L = Math.sqrt(h * h + w * w);
+                    }
+                }
+                X2 = X + L * Math.sin(Math.PI * i / honsu);
+                Y2 = Y - L * Math.cos(Math.PI * i / honsu);
+                ctx.beginPath();     // 1.Pathで描画を開始する
+                ctx.moveTo(X, Y); // 2.描画する位置を指定する
+                ctx.lineTo(X2, Y2);
+                ctx.strokeStyle = "yellow";
+                ctx.lineWidth = 3;
+                ctx.stroke();        // 4.Canvas上に描画する
+                var L = Math.sqrt(h * h + w * w);
+            }
+            ///////////////////////////////////////////////////////////////////////放射状に線を引いた/////////////////////////////////////////////////////////////////
+
+            ///////////////////////////////////////////////////////////////////////光源/////////////////////////////////////////////////////////////////
+            // パスをリセット
+            ctx.beginPath();
+            // 円の中心座標: (100,100)
+            // 半径: 50
+            // 開始角度: 0度 (0 * Math.PI / 180)
+            // 終了角度: 360度 (360 * Math.PI / 180)
+            // 方向: true=反時計回りの円、false=時計回りの円
+            ctx.arc(X, Y, 25, 0 * Math.PI / 180, 360 * Math.PI / 180, false);
+            // 塗りつぶしの色
+            ctx.fillStyle = "yellow";
+            // 塗りつぶしを実行
+            ctx.fill();
+            // 線の色
+            ctx.strokeStyle = "black";
+            // 線の太さ
+            ctx.lineWidth = 3;
+            // 線を描画を実行
+            ctx.stroke();
+            ///////////////////////////////////////////////////////////////////////光源/////////////////////////////////////////////////////////////////
+
+
+            //////////////////////////////////////////////////////////////スクリーン/////////////////////////////////////////////////////////////
+            // パスをリセット
+            ctx.beginPath();
+            //色を指定する
+            ctx.fillStyle = "black"; //塗りつぶしの色は黒  
+            //左から,上から,の位置に、幅,高さ,の四角形を描く
+            ctx.fillRect(w - (w / 30), 0, w / 30, h);
+            // 線を描画を実行
+            ctx.stroke();
+            //////////////////////////////////////////////////////////////スクリーン/////////////////////////////////////////////////////////////
+
+
+            /////////////////////////////////////////////////////////////スリット/////////////////////////////////////////////////////////////
+            // パスをリセット
+            ctx.beginPath();
+            //色を指定する
+            ctx.fillStyle = "black"; //塗りつぶしの色は黒  
+            //左から,上から,の位置に、幅,高さ,の四角形を描く
+            ctx.fillRect(slitx, 0, slitw, h / 2 - slithole / 2); //スリット上部
+            ctx.fillRect(slitx, h / 2 + slithole / 2, slitw, h / 2 - slithole / 2); //スリット下部
+            // 線を描画を実行
+            ctx.stroke();
+            /////////////////////////////////////////////////////////////スリット/////////////////////////////////////////////////////////////
+        }
+
+    </script>
+
+
+
+</body>
+
+</html>
