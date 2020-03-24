@@ -8,7 +8,7 @@ PC用のページは、Chrome以外では動作確認ができていません。
 
 #### 2光源の光線モデル
 [PC用サイト](https://phys-ken.github.io/Optics/tutorial2_2light.html) /
-[スマートフォン用サイト]()
+[スマートフォン用サイト](https://phys-ken.github.io/Optics/tutorial2_2light-phone.html)
 
 #### レンズのはたらき
 [PC用サイト](https://phys-ken.github.io/Optics/Lens.html) /
