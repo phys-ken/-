@@ -10,7 +10,12 @@ PC用のページは、Chrome以外では動作確認ができていません。
 [PC用サイト](https://phys-ken.github.io/Optics/tutorial2_2light.html) /
 [スマートフォン用サイト](https://phys-ken.github.io/Optics/tutorial2_2light-phone.html)
 
-#### レンズのはたらき
+#### 鏡
+
+#### 凹面鏡
+
+#### レンズのはたらき（1光源）
 [PC用サイト](https://phys-ken.github.io/Optics/Lens.html) /
 [スマートフォン用サイト](https://phys-ken.github.io/Optics/Lens-phone.html) /
 
+#### レンズのはたらき　(2光源)
