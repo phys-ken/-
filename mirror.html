@@ -14,7 +14,7 @@
         oninput="document.getElementById('output1').value=this.value * 2">
     <output id="output1">40</output>
 
-    　　　<input type="checkbox" name="sakuzu" id="sakuzu" value="sakuzu">作図用の線を描画する
+    　　　<input type="checkbox" name="sakuzu" id="sakuzu" value="sakuzu">像の作図
     　　　<br>下の図形上でクリックすると全光線を描画します<br>
 
     <canvas id="cv" style="background-color:rgb(163, 166, 167);">
@@ -145,9 +145,26 @@
                 //レンズより奥
 
                 if (Y + takasa < h / 2 + slithole / 2 && Y + takasa > h / 2 - slithole / 2) {//鏡に当たった光は反射。
-                    var endy = endyget(X,Y,X2,Y2,w);
-                    linemaker(X2, Y2, slitx - (w - slitx), endy , 0, "red");
+                    var endy = endyget(X, Y, X2, Y2, w);
+                    linemaker(X2, Y2, slitx - (w - slitx), endy, 0, "red");
                     var L = Math.sqrt(h * h + w * w);
+                    if (sakuzustate == 1) {
+                        var endyy = endyget(0, endy, X2, Y2, slitx + slitx - X);
+                        linemaker(X2, Y2, slitx + slitx - X, endyy, slitx + slitx - X, "blue");
+                        // 像の光源も書いておく
+                        ctx.beginPath();
+                        ctx.arc(slitx + slitx - X, endyy, r, 0 * Math.PI / 180, 360 * Math.PI / 180, false);
+                        // 塗りつぶしの色
+                        ctx.fillStyle = "yellow";
+                        // 塗りつぶしを実行
+                        ctx.fill();
+                        // 線の色
+                        ctx.strokeStyle = "black";
+                        // 線の太さ
+                        ctx.lineWidth = 3;
+                        // 線を描画を実行
+                        ctx.stroke();
+                    }
                 }
 
 
@@ -203,18 +220,18 @@
 
 
             /////////////////////////////////////////////////////////////焦点/////////////////////////////////////////////////////////////
-/*             // パスをリセット
-            ctx.beginPath();
-            //色を指定する
-            ctx.fillStyle = "black"; //塗りつぶしの色は黒  
-            //左から,上から,の位置に、幅,高さ,の四角形を描く
-            blocksize = 10;
-            ctx.fillRect(slitx + f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //f
-            ctx.fillRect(slitx - f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //f
-            ctx.fillRect(slitx + 2 * f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //2f
-            ctx.fillRect(slitx - 2 * f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //2f
-            // 線を描画を実行
-            ctx.stroke(); */
+            /*             // パスをリセット
+                        ctx.beginPath();
+                        //色を指定する
+                        ctx.fillStyle = "black"; //塗りつぶしの色は黒  
+                        //左から,上から,の位置に、幅,高さ,の四角形を描く
+                        blocksize = 10;
+                        ctx.fillRect(slitx + f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //f
+                        ctx.fillRect(slitx - f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //f
+                        ctx.fillRect(slitx + 2 * f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //2f
+                        ctx.fillRect(slitx - 2 * f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //2f
+                        // 線を描画を実行
+                        ctx.stroke(); */
             /////////////////////////////////////////////////////////////焦点終わり///////////////////////////////////////////////////////////// 
 
             ////////////////////////////////////////////光軸
@@ -228,7 +245,7 @@
 
             /////////////鏡をかく////////////////////////////////
             //現在のパスを輪郭表示する
-            ctx.fillRect(slitx , (h / 2) - (slithole / 2), slitw, slithole);
+            ctx.fillRect(slitx, (h / 2) - (slithole / 2), slitw, slithole);
             ctx.stroke();
             /////////////鏡をかく////////////////////////////////
 
