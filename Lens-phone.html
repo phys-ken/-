@@ -9,13 +9,13 @@
 
 <body onLoad="loopd()">
     <h2>レンズのはたらき(スマートフォン用サイト)</h2>
-    光線の本数 
+    光線の本数
     <input type="range" value="20" min="10" max="300" step="1"
-    oninput="document.getElementById('output1').value=this.value * 2">
+        oninput="document.getElementById('output1').value=this.value * 2">
     <output id="output1">40</output>
 
-    　　　<input type="checkbox" name="sakuzu" id="sakuzu" value="sakuzu" >作図用の線を描画する
-    　　　<input type="checkbox" name="kosen" id="kosen" value="kosen" >全光線を描画する<br>
+    　　　<input type="checkbox" name="sakuzu" id="sakuzu" value="sakuzu">作図用の線を描画する
+    　　　<input type="checkbox" name="kosen" id="kosen" value="kosen">全光線を描画する<br>
     <br>
 
     <canvas id="cv" style="background-color:rgb(163, 166, 167);">
@@ -24,7 +24,7 @@
     <br>2020.3.19 phys-ken作成
 
     <script>
-//2020.3.22 githubで管理を始める。→gh-pagesで公開
+        //2020.3.22 githubで管理を始める。→gh-pagesで公開
 
         //領域
         var cvs = document.getElementById("cv");
@@ -56,17 +56,17 @@
         function draw() {
             var flag1 = document.getElementById("sakuzu").checked;
             if (flag1 == true) {
-                    sakuzustate = 1;;
-                } else {
-                    sakuzustate = 0;
-                }
+                sakuzustate = 1;;
+            } else {
+                sakuzustate = 0;
+            }
 
-                var flag2 = document.getElementById("kosen").checked;
+            var flag2 = document.getElementById("kosen").checked;
             if (flag2 == false) {
-                    state = 1;;
-                } else {
-                    state = 0;
-                }
+                state = 1;;
+            } else {
+                state = 0;
+            }
 
             var ho = document.getElementById('output1');
             var honsu = ho.value;
@@ -260,10 +260,11 @@
             /////////////レンズをかく////////////////////////////////
 
             ///////////////////////////////////sakuzustate==1のとき作図用の光線を引く///////////////////////////////////
-            if (sakuzustate == 1){
-            linemaker(X, Y, slitx, h / 2, w, "blue");
-            linemaker(slitx, Y, slitx + f, h / 2, w, "blue");
-            linemaker(X, Y, slitx, Y, slitx, "blue");}
+            if (sakuzustate == 1) {
+                linemaker(X, Y, slitx, h / 2, w, "blue");
+                linemaker(slitx, Y, slitx + f, h / 2, w, "blue");
+                linemaker(X, Y, slitx, Y, slitx, "blue");
+            }
 
             ///////////////////////////////////////////////////////////////////////////////////
         }
