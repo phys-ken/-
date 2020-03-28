@@ -14,8 +14,10 @@
         oninput="document.getElementById('output1').value=this.value * 2">
     <output id="output1">40</output>
 
-    　　　<input type="checkbox" name="sakuzu" id="sakuzu" value="sakuzu">像の作図
-    　　　<br>下の図形上でクリックすると全光線を描画します<br>
+    　　<input type="checkbox" name="sakuzu" id="sakuzu" value="sakuzu">像の作図
+    <input type="checkbox" name="kagami" id="kagami" value="kagami">鏡と光源を削除する
+    　　　<br>　　　
+    <br>下の図形上でクリックすると全光線を描画します<br>
 
     <canvas id="cv" style="background-color:rgb(163, 166, 167);">
         図形を表示するには、canvasタグをサポートしたブラウザが必要です。
@@ -54,9 +56,16 @@
         function draw() {
             var flag1 = document.getElementById("sakuzu").checked;
             if (flag1 == true) {
-                sakuzustate = 1;;
+                var sakuzustate = 1;;
             } else {
                 sakuzustate = 0;
+            }
+
+            var flag3 = document.getElementById("kagami").checked;
+            if (flag3 == true) {
+                var kagamistate = 1;;
+            } else {
+                kagamistate = 0;
             }
 
 
@@ -108,12 +117,14 @@
             }
             X2 = X + L * Math.sin(Math.PI * 0);
             Y2 = Y - L * Math.cos(Math.PI * 0);
-            ctx.beginPath();     // 1.Pathで描画を開始する
-            ctx.moveTo(X, Y); // 2.描画する位置を指定する
-            ctx.lineTo(X2, Y2);
-            ctx.strokeStyle = "yellow";
-            ctx.lineWidth = 3;
-            ctx.stroke();
+            if (kagamistate === 0) {
+                ctx.beginPath();     // 1.Pathで描画を開始する
+                ctx.moveTo(X, Y); // 2.描画する位置を指定する
+                ctx.lineTo(X2, Y2);
+                ctx.strokeStyle = "yellow";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            }
 
             //放射状に引く
             for (var i = 1; i < 2 * (honsu); i++) {
@@ -133,16 +144,18 @@
                 }
                 X2 = X + L * Math.sin(Math.PI * i / honsu);//レンズとの交点のX座標
                 Y2 = Y - L * Math.cos(Math.PI * i / honsu);//レンズとの交点のy座標
-                ctx.beginPath();     // 1.Pathで描画を開始する
-                ctx.moveTo(X, Y); // 2.描画する位置を指定する
-                ctx.lineTo(X2, Y2);
-                ctx.strokeStyle = "yellow";
-                ctx.lineWidth = 3;
-                ctx.stroke();        // 4.Canvas上に描画する
+                if (kagamistate === 0) {
+                    ctx.beginPath();     // 1.Pathで描画を開始する
+                    ctx.moveTo(X, Y); // 2.描画する位置を指定する
+                    ctx.lineTo(X2, Y2);
+                    ctx.strokeStyle = "yellow";
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                }        // 4.Canvas上に描画する
                 var L = Math.sqrt(h * h + w * w);
 
 
-                //レンズより奥
+                //鏡より奥
 
                 if (Y + takasa < h / 2 + slithole / 2 && Y + takasa > h / 2 - slithole / 2) {//鏡に当たった光は反射。
                     var endy = endyget(X, Y, X2, Y2, w);
@@ -173,6 +186,7 @@
 
 
             ///////////////////////////////////////////////////////////////////////光源/////////////////////////////////////////////////////////////////
+            if (kagamistate === 0){
             // パスをリセット
             ctx.beginPath();
             // 円の中心座標: XY
@@ -191,6 +205,7 @@
             ctx.lineWidth = 3;
             // 線を描画を実行
             ctx.stroke();
+            }
             ///////////////////////////////////////////////////////////////////////光源/////////////////////////////////////////////////////////////////
 
 
