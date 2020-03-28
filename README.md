@@ -12,7 +12,9 @@ PC用のページは、Chrome以外では動作確認ができていません。
 
 #### 鏡
 [PC用サイト](https://phys-ken.github.io/Optics/mirror.html) /
-[スマートフォン用サイト](https://phys-ken.github.io/Optics/mirror-phone.html)
+[スマートフォン用サイト](https://phys-ken.github.io/Optics/mirror-phone.html) /
+[作図練習用サイト](https://phys-ken.github.io/Optics/mirror-sheet.html)
+
 
 #### 凹面鏡
 
