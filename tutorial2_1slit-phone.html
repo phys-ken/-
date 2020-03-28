@@ -24,17 +24,18 @@
         //領域
         var cvs = document.getElementById("cv");
         var ctx = cvs.getContext("2d");
-        cvs.width = 1000;
-        cvs.height = 600;
+        cvs.width = document.documentElement.clientWidth - 10;
+        cvs.height = cvs.width * 9 / 16;
         w = cvs.width;
         h = cvs.height
         //光源
         var X = (1 / 6) * w; //初期座標 X
         var Y = (1 / 2) * h; //初期座標ｙ
         var L = Math.sqrt(h * h + w * w); //対角線の長さ
-        var honsu = 70; //光線の本数
+        //var honsu = 70; //光線の本数
+        var r = h / 20; //光源の半径
         //スリット
-        slithole = 60; //スリットの穴の高さ
+        slithole = h / 3; //スリットの穴の高さdef120
         slitw = w / 50; //幅
         slitx = w * 3 / 5; //スリットの位置
         var state; //全光線のstate
@@ -134,7 +135,7 @@
             // 開始角度: 0度 (0 * Math.PI / 180)
             // 終了角度: 360度 (360 * Math.PI / 180)
             // 方向: true=反時計回りの円、false=時計回りの円
-            ctx.arc(X, Y, 25, 0 * Math.PI / 180, 360 * Math.PI / 180, false);
+            ctx.arc(X, Y, r, 0 * Math.PI / 180, 360 * Math.PI / 180, false);
             // 塗りつぶしの色
             ctx.fillStyle = "yellow";
             // 塗りつぶしを実行

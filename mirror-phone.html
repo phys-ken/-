@@ -8,7 +8,7 @@
 </head>
 
 <body onLoad="loopd()">
-    <h2>鏡のはたらき(PC用サイト)</h2>
+    <h2>鏡のはたらき(スマートフォン用サイト)</h2>
     光線の本数
     <input type="range" value="20" min="10" max="300" step="1"
         oninput="document.getElementById('output1').value=this.value * 2">
@@ -26,8 +26,8 @@
         //領域
         var cvs = document.getElementById("cv");
         var ctx = cvs.getContext("2d");
-        cvs.width = 1000;
-        cvs.height = 600;
+        cvs.width = document.documentElement.clientWidth - 10;
+        cvs.height = cvs.width * 9 / 16;
         w = cvs.width;
         h = cvs.height
         //光源
@@ -35,13 +35,13 @@
         var Y = (1 / 2) * h; //初期座標ｙ
         var L = Math.sqrt(h * h + w * w); //対角線の長さ
         //var honsu = 70; //光線の本数
-        var r = 20; //光源の半径
+        var r = h/20; //光源の半径
         //スリット
-        slithole = 100; //スリットの穴の高さdef120
+        slithole = h / 3; //スリットの穴の高さdef120
         slitw = w / 50; //幅
         slitx = w * 1 / 2; //スリットの位置
         //レンズ
-        var f = 150; //焦点距離
+        var f = w / 6; //焦点距離
         var state; //全光線のstate
 
 
