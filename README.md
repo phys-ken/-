@@ -23,4 +23,7 @@ PC用のページは、Chrome以外では動作確認ができていません。
 [スマートフォン用サイト](https://phys-ken.github.io/Optics/Lens-phone.html) /
 [作図練習用サイト](https://phys-ken.github.io/Optics/Lens-sheet.html)
 
-#### レンズのはたらき　(2光源)
+#### レンズのはたらき　(大きさのある光源)
+[PC用サイト](https://phys-ken.github.io/Optics/Lens-object.html) /
+[スマートフォン用サイト](https://phys-ken.github.io/Optics/Lens-object-phone.html) /
+[作図練習用サイト](https://phys-ken.github.io/Optics/Lens-object-sheet.html)
