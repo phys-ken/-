@@ -2,11 +2,6 @@
 ### 推奨環境
 PC用のページ:Chrome
 
-### 一覧ページ
-[こちら](https://phys-ken.github.io/Optics/README.html)  
-デフォルトのREADME.mdを、[Markdown PDF](https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf)を使って変換し、htmlファイルを作成しています。
-
-
 ### 1光源の光線モデル
 [PC用サイト](https://phys-ken.github.io/Optics/tutorial2_1slit.html) /
 [スマートフォン用サイト](https://phys-ken.github.io/Optics/tutorial2_1slit-phone.html)
@@ -31,4 +26,11 @@ PC用のページ:Chrome
 ### レンズのはたらき　(大きさのある光源)
 [PC用サイト](https://phys-ken.github.io/Optics/Lens-object.html) /
 [スマートフォン用サイト](https://phys-ken.github.io/Optics/Lens-object-phone.html) /
-[作図練習用サイト](https://phys-ken.github.io/Optics/Lens-object-sheet.html)
+[作図練習用サイト](https://phys-ken.github.io/Optics/Lens-object-sheet.html)  
+  
+  
+  
+
+### 一覧ページ
+[こちら](https://phys-ken.github.io/Optics/README.html)  
+デフォルトのREADME.mdを、[Markdown PDF](https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf)を使って変換し、htmlファイルを作成しています。
