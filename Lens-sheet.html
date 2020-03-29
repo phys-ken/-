@@ -21,7 +21,6 @@
     <canvas id="cv" style="background-color:rgb(218, 220, 221);">
         図形を表示するには、canvasタグをサポートしたブラウザが必要です。
     </canvas>
-    <a id="download" href="#" download="canvas.jpg">ダウンロード</a>
     <br>2020.3.19 phys-ken作成
 
     <script>
@@ -307,13 +306,6 @@
             var y3 = ((y2 - y1) * (end - x1) / (x2 - x1)) + y1;
             return y3;
         }
-
-        // canvasを画像で保存
-        $("#download").click(function () {
-            canvas = document.getElementById('cv');
-            var base64 = canvas.toDataURL("image/png");
-            document.getElementById("download").href = base64;
-        });
 
     </script>
 
