@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レンズのはたらき</title>
+</head>
+
+<body onLoad="loopd()">
+    <h2>レンズのはたらき 物体の像(スマートフォン用サイト)</h2>
+    光線の本数
+    <input type="range" value="20" min="10" max="300" step="1"
+        oninput="document.getElementById('output1').value=this.value * 2">
+    <output id="output1">40</output>
+
+    　　　<input type="checkbox" name="sakuzu" id="sakuzu" value="sakuzu">作図用の線を描画する
+    　　　<br><input type="checkbox" name="kosen" id="kosen" value="kosen">全光線を描画する<br>
+
+    <canvas id="cv" style="background-color:rgb(163, 166, 167);">
+        図形を表示するには、canvasタグをサポートしたブラウザが必要です。
+    </canvas>
+
+    <br>2020.3.19 phys-ken作成
+
+    <script>
+        //領域
+        var cvs = document.getElementById("cv");
+        var ctx = cvs.getContext("2d");
+        cvs.width = document.documentElement.clientWidth - 10;
+        cvs.height = cvs.width * 9 / 16;
+        w = cvs.width;
+        h = cvs.height
+        //光源
+        var X = (1 / 6) * w; //初期座標 X
+        var Y = (1 / 5) * h; //初期座標ｙ
+        var L = Math.sqrt(h * h + w * w); //対角線の長さ
+        //var honsu = 70; //光線の本数
+        var r = h / 20; //光源の半径
+        //スリット
+        slithole = h / 3; //スリットの穴の高さdef120
+        slitw = w / 50; //幅
+        slitx = w * 1 / 2; //スリットの位置
+        //レンズ
+        var f = w / 6; //焦点距離
+        var state; //全光線のstate
+
+        //光源2
+        var X222 = (1 / 6) * w; //初期座標 X
+        var Y222 = (3 / 5) * h; //初期座標ｙ
+
+
+
+
+
+        function loopd() {
+            setInterval(draw, 10);
+        }
+
+        function draw() {
+            var flag1 = document.getElementById("sakuzu").checked;
+            if (flag1 == true) {
+                sakuzustate = 1;;
+            } else {
+                sakuzustate = 0;
+            }
+            var flag2 = document.getElementById("kosen").checked;
+            if (flag2 == false) {
+                state = 1;;
+            } else {
+                state = 0;
+            }
+
+            var ho = document.getElementById('output1');
+            var honsu = ho.value;
+
+
+            //マウスの動きを取得
+            cvs.addEventListener("mousemove", (e) => {
+                var rect = e.target.getBoundingClientRect()
+                if (e.clientX - rect.left <= slitx) { //光源がスリットより右にいかないように制御
+                    if (e.clientX - rect.left == slitx - f) { } else {//光源が焦点に来ないように制御
+                        X = e.clientX - rect.left;
+                        Y = e.clientY - rect.top;
+                    }
+                }
+            });
+            X222 = X;
+            Y222 = Y + (2 / 5) * h;
+
+            ctx.clearRect(0, 0, w, h); //canvasの初期化
+
+
+
+            /////////////////////////////////////////////結像公式から、像の位置を求める////////////////////////////////////
+            var zouX;
+            var zouY;
+            var distXslit = slitx - X; //結像公式のa
+            var distzouX;  //結像公式のb
+            var kh = Y - (h / 2);//光源の光軸からの高さh
+            var zouH;//像の光軸からの高さH
+            distzouX = (f * distXslit) / (distXslit - f);
+            zouX = slitx + distzouX;
+            zouH = f * kh / (distXslit - f);
+            zouY = -1 * zouH + (h / 2);
+            /////////////////////////////////////////////結像公式から、像の位置を求める////////////////////////////////////
+
+            /////////////////////////////////////////////結像公式から、像の位置を求める2////////////////////////////////////
+            var zouX222;
+            var zouY222;
+            var distXslit222 = slitx - X222; //結像公式のa
+            var distzouX222;  //結像公式のb
+            var kh222 = Y222 - (h / 2);//光源の光軸からの高さh
+            var zouH222;//像の光軸からの高さH
+            distzouX222 = (f * distXslit222) / (distXslit222 - f);
+            zouX222 = slitx + distzouX222;
+            zouH222 = f * kh222 / (distXslit222 - f);
+            zouY222 = -1 * zouH222 + (h / 2);
+            /////////////////////////////////////////////結像公式から、像の位置を求める////////////////////////////////////
+
+
+
+            ///////////////////////////////////////////////////////////////////////放射状に線を引く/////////////////////////////////////////////////////////////////
+            //まずは、縦線だけ引く
+            if (state == 0) {//stateが0だったら全体の光線、そうじゃなかったら代表線のみ
+                var L = Math.sqrt(h * h + w * w); //全体の光線を表示する場合     
+            } else {
+                var L = 0; //代表線のみを表示する場合
+            }
+            X2 = X + L * Math.sin(Math.PI * 0);
+            Y2 = Y - L * Math.cos(Math.PI * 0);
+            ctx.beginPath();     // 1.Pathで描画を開始する
+            ctx.moveTo(X, Y); // 2.描画する位置を指定する
+            ctx.lineTo(X2, Y2);
+            ctx.strokeStyle = "red";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            //放射状に引く
+            for (var i = 1; i < 2 * (honsu); i++) {
+                if (state == 0) {
+                    var L = Math.sqrt(h * h + w * w); //全体の光線を表示する場合     
+                } else {
+                    var L = 0; //代表線のみを表示する場合
+                }
+
+
+                if (i < (honsu)) {
+                    takasa = (slitx - X) * Math.tan((Math.PI * i / honsu) + Math.PI / 2); //光面と光線の交点の高さ
+                    yoko = slitx - X;//光面と光源の距離
+                    if (Y + takasa < h / 2 + slithole / 2 && Y + takasa > h / 2 - slithole / 2) {
+                        L = Math.sqrt(takasa * takasa + yoko * yoko);
+                    }
+                }
+                X2 = X + L * Math.sin(Math.PI * i / honsu);//レンズとの交点のX座標
+                Y2 = Y - L * Math.cos(Math.PI * i / honsu);//レンズとの交点のy座標
+                ctx.beginPath();     // 1.Pathで描画を開始する
+                ctx.moveTo(X, Y); // 2.描画する位置を指定する
+                ctx.lineTo(X2, Y2);
+                ctx.strokeStyle = "red";
+                ctx.lineWidth = 3;
+                ctx.stroke();        // 4.Canvas上に描画する
+                var L = Math.sqrt(h * h + w * w);
+
+
+                //レンズより奥
+                if (X == slitx - f) {//光源が焦点にあるとき
+                    if (Y + takasa < h / 2 + slithole / 2 && Y + takasa > h / 2 - slithole / 2) {//レンズより内側なら屈折
+                        var L = Math.sqrt(h * h + w * w);
+                    }
+                } else if (X >= slitx - f) {//光源が焦点とレンズの間にあるとき
+                    if (Y + takasa < h / 2 + slithole / 2 && Y + takasa > h / 2 - slithole / 2) {//レンズより内側なら屈折
+                        linemaker(X2, Y2, zouX, zouY, w, "red");
+                    }
+                } else {//光源が焦点より左にあるとき
+                    if (Y + takasa < h / 2 + slithole / 2 && Y + takasa > h / 2 - slithole / 2) {//光線のうち、レンズの内側にある光線については、屈折させる。
+                        linemaker(X2, Y2, zouX, zouY, w, "red");
+                        var L = Math.sqrt(h * h + w * w);
+                    }
+
+                }
+            }
+            ///////////////////////////////////////////////////////////////////////放射状に線を引いた/////////////////////////////////////////////////////////////////
+
+            ///////////////////////////////////////////////////////////////////////放射状に線を引く2/////////////////////////////////////////////////////////////////
+            //まずは、縦線だけ引く
+            if (state == 0) {//stateが0だったら全体の光線、そうじゃなかったら代表線のみ
+                var L = Math.sqrt(h * h + w * w); //全体の光線を表示する場合     
+            } else {
+                var L = 0; //代表線のみを表示する場合
+            }
+            X23 = X222 + L * Math.sin(Math.PI * 0);
+            Y23 = Y222 - L * Math.cos(Math.PI * 0);
+            ctx.beginPath();     // 1.Pathで描画を開始する
+            ctx.moveTo(X222, Y222); // 2.描画する位置を指定する
+            ctx.lineTo(X23, Y23);
+            ctx.strokeStyle = "green";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            //放射状に引く
+            for (var i = 1; i < 2 * (honsu); i++) {
+                if (state == 0) {
+                    var L = Math.sqrt(h * h + w * w); //全体の光線を表示する場合     
+                } else {
+                    var L = 0; //代表線のみを表示する場合
+                }
+
+
+                if (i < (honsu)) {
+                    takasa222 = (slitx - X222) * Math.tan((Math.PI * i / honsu) + Math.PI / 2); //光面と光線の交点の高さ
+                    yoko222 = slitx - X222;//光面と光源の距離
+                    if (Y222 + takasa222 < h / 2 + slithole / 2 && Y222 + takasa222 > h / 2 - slithole / 2) {
+                        L = Math.sqrt(takasa222 * takasa222 + yoko222 * yoko222);
+                    }
+                }
+                X23 = X222 + L * Math.sin(Math.PI * i / honsu);//レンズとの交点のX座標
+                Y23 = Y222 - L * Math.cos(Math.PI * i / honsu);//レンズとの交点のy座標
+                ctx.beginPath();     // 1.Pathで描画を開始する
+                ctx.moveTo(X222, Y222); // 2.描画する位置を指定する
+                ctx.lineTo(X23, Y23);
+                ctx.strokeStyle = "green";
+                ctx.lineWidth = 3;
+                ctx.stroke();        // 4.Canvas上に描画する
+                var L = Math.sqrt(h * h + w * w);
+
+
+                //レンズより奥
+                if (X222 == slitx - f) {//光源が焦点にあるとき
+                    if (Y222 + takasa222 < h / 2 + slithole / 2 && Y222 + takasa222 > h / 2 - slithole / 2) {//レンズより内側なら屈折
+                        var L = Math.sqrt(h * h + w * w);
+                    }
+                } else if (X222 >= slitx - f) {//光源が焦点とレンズの間にあるとき
+                    if (Y222 + takasa222 < h / 2 + slithole / 2 && Y222 + takasa222 > h / 2 - slithole / 2) {//レンズより内側なら屈折
+                        linemaker(X23, Y23, zouX222, zouY222, w, "green");
+                    }
+                } else {//光源が焦点より左にあるとき
+                    if (Y222 + takasa222 < h / 2 + slithole / 2 && Y222 + takasa222 > h / 2 - slithole / 2) {//光線のうち、レンズの内側にある光線については、屈折させる。
+                        linemaker(X23, Y23, zouX222, zouY222, w, "green");
+                        var L = Math.sqrt(h * h + w * w);
+                    }
+
+                }
+            }
+            ///////////////////////////////////////////////////////////////////////放射状に線を引いた/////////////////////////////////////////////////////////////////
+
+
+
+            //////////////////////////////////////////////////////////////スクリーン/////////////////////////////////////////////////////////////
+            // パスをリセット
+            ctx.beginPath();
+            //色を指定する
+            ctx.fillStyle = "black"; //塗りつぶしの色は黒  
+            //左から,上から,の位置に、幅,高さ,の四角形を描く
+            ctx.fillRect(w - (w / 30), 0, w / 30, h);
+            // 線を描画を実行
+            ctx.stroke();
+            //////////////////////////////////////////////////////////////スクリーン/////////////////////////////////////////////////////////////
+
+
+            ////////////////////////////////////////////////////////////物体/////////////////////////////////////////////////////////////
+            // パスをリセット
+            ctx.beginPath();
+            //色を指定する
+            ctx.fillStyle = "red"; //塗りつぶしの色 
+            //左から,上から,の位置に、幅,高さ,の四角形を描く
+            ctx.fillRect(X - slitw, Y, slitw, 3 * h / 10); //物体上部
+            ctx.stroke();
+            // パスをリセット
+            ctx.beginPath();
+            //色を指定する
+            ctx.fillStyle = "green"; //塗りつぶしの色 
+            ctx.fillRect(X - slitw, Y + 3 * h / 10, slitw, 1 * h / 10); //スリット下部
+            // 線を描画を実行
+            ctx.stroke();
+            /////////////////////////////////////////////////////////////スリット/////////////////////////////////////////////////////////////
+
+
+            /////////////////////////////////////////////////////////////焦点/////////////////////////////////////////////////////////////
+            // パスをリセット
+            ctx.beginPath();
+            //色を指定する
+            ctx.fillStyle = "black"; //塗りつぶしの色は黒  
+            //左から,上から,の位置に、幅,高さ,の四角形を描く
+            blocksize = 10;
+            ctx.fillRect(slitx + f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //f
+            ctx.fillRect(slitx - f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //f
+            ctx.fillRect(slitx + 2 * f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //2f
+            ctx.fillRect(slitx - 2 * f - (blocksize / 2), (h / 2) - blocksize / 2, blocksize, blocksize); //2f
+            // 線を描画を実行
+            ctx.stroke();
+            /////////////////////////////////////////////////////////////焦点終わり///////////////////////////////////////////////////////////// 
+
+            ////////////////////////////////////////////光軸
+            ctx.beginPath();     // 1.Pathで描画を開始する
+            ctx.moveTo(0, h / 2); // 2.描画する位置を指定する
+            ctx.lineTo(w, h / 2);
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ////////////光軸終わり
+
+            /////////////レンズをかく////////////////////////////////
+            lensw = 40;
+            ctx.beginPath();
+            //パスの開始座標を指定する
+            ctx.moveTo(slitx, (h / 2) - (slithole / 2));
+            //座標を指定してラインを引いていく quadraticCurveTo(cpx, cpy, x, y)
+            ctx.quadraticCurveTo(slitx - lensw, h / 2, slitx, (h / 2) + (slithole / 2));
+            //現在のパスを輪郭表示する
+            ctx.stroke();
+            ctx.beginPath();
+            //パスの開始座標を指定する
+            ctx.moveTo(slitx, (h / 2) - (slithole / 2));
+            //座標を指定してラインを引いていく quadraticCurveTo(cpx, cpy, x, y)
+            ctx.quadraticCurveTo(slitx + lensw, h / 2, slitx, (h / 2) + (slithole / 2));
+            //現在のパスを輪郭表示する
+            ctx.stroke();
+            /////////////レンズをかく////////////////////////////////
+
+            ///////////////////////////////////sakuzustate==1のとき作図用の光線を引く///////////////////////////////////
+            if (sakuzustate == 1) {
+                linemaker(X, Y, slitx, h / 2, w, "blue");
+                linemaker(slitx, Y, slitx + f, h / 2, w, "blue");
+                linemaker(X, Y, slitx, Y, slitx, "blue");
+            }
+
+            ///////////////////////////////////////////////////////////////////////////////////
+        }
+
+
+        //始点と途中点の座標を指定することで、直線を引く。endは、終点のx座標
+        function linemaker(x1, y1, x2, y2, end, col) {
+            var y3 = ((y2 - y1) * (end - x1) / (x2 - x1)) + y1;
+            ctx.beginPath();     // 1.Pathで描画を開始する
+            ctx.moveTo(x1, y1); // 2.描画する位置を指定する
+            ctx.lineTo(end, y3);
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        //始点と途中点の座標を指定することで、線分の終点の座標を取得する。
+        function endyget(x1, y1, x2, y2, end) {
+            var y3 = ((y2 - y1) * (end - x1) / (x2 - x1)) + y1;
+            return y3;
+        }
+
+    </script>
+
+
+
+</body>
+
+</html>
