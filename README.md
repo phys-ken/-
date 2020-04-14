@@ -16,7 +16,7 @@ PC用のページ:Chrome
 [作図練習用サイト](https://phys-ken.github.io/Optics/mirror-sheet.html)
 
 
-### 凹面鏡(作成中)
+### 凹面鏡
 [PC用サイト](https://phys-ken.github.io/Optics/concave-mirror.html) /
 [スマートフォン用サイト](https://phys-ken.github.io/Optics/concave-mirror-phone.html) /
 [作図練習用サイト](https://phys-ken.github.io/Optics/concave-mirror-sheet.html)
