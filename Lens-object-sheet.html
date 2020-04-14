@@ -126,6 +126,29 @@
             zouY222 = -1 * zouH222 + (h / 2);
             /////////////////////////////////////////////結像公式から、像の位置を求める////////////////////////////////////
 
+            ////////////////////////////////////////////方眼紙
+            for (let i = 1; i <= 16; i++) {
+                var tatesen = w / 16;
+                ctx.beginPath();     // 1.Pathで描画を開始する
+                ctx.moveTo(tatesen * i, 0); // 2.描画する位置を指定する
+                ctx.lineTo(tatesen * i, h);
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+            for (let i = 1; i <= 8; i++) {
+                var yokosen = h / 8
+                ctx.beginPath();     // 1.Pathで描画を開始する
+                ctx.moveTo(0, yokosen * i); // 2.描画する位置を指定する
+                ctx.lineTo(w, yokosen * i);
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+            ////////////方眼紙終わり
+
+
+
 
 
             ///////////////////////////////////////////////////////////////////////放射状に線を引く/////////////////////////////////////////////////////////////////
@@ -343,26 +366,7 @@
             ///////////////////////////////////////////////////////////////////////////////////
 
 
-            ////////////////////////////////////////////方眼紙
-            for (let i = 1; i <= 16; i++) {
-                var tatesen = w / 16;
-                ctx.beginPath();     // 1.Pathで描画を開始する
-                ctx.moveTo(tatesen * i, 0); // 2.描画する位置を指定する
-                ctx.lineTo(tatesen * i, h);
-                ctx.strokeStyle = "black";
-                ctx.lineWidth = 2;
-                ctx.stroke();
-            }
-            for (let i = 1; i <= 8; i++) {
-                var yokosen = h / 8
-                ctx.beginPath();     // 1.Pathで描画を開始する
-                ctx.moveTo(0, yokosen * i); // 2.描画する位置を指定する
-                ctx.lineTo(w, yokosen * i);
-                ctx.strokeStyle = "black";
-                ctx.lineWidth = 2;
-                ctx.stroke();
-            }
-            ////////////方眼紙終わり
+
 
 
         }
