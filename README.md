@@ -11,6 +11,10 @@ PC用のページ:Chrome
 [PC用サイト](https://phys-ken.github.io/Optics/tutorial2_2lights.html) /
 [スマートフォン用サイト](https://phys-ken.github.io/Optics/tutorial2_2lights-phone.html)
 
+### 眼の仕組み
+[PC用サイト](https://phys-ken.github.io/Optics/eye.html) /
+
+
 ### 鏡
 [PC用サイト](https://phys-ken.github.io/Optics/mirror.html) /
 [スマートフォン用サイト](https://phys-ken.github.io/Optics/mirror-phone.html) /
