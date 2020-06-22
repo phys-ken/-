@@ -36,6 +36,8 @@ PC用のページ:Chrome
 [スマートフォン用サイト](https://phys-ken.github.io/Optics/Lens-object-phone.html) /
 [作図練習用サイト](https://phys-ken.github.io/Optics/Lens-object-sheet.html)  
   
+### レンズのはたらき（レンズ幅可変）
+[PC用サイト](https://phys-ken.github.io/Optics/LensWide.html) 
   
   
 
